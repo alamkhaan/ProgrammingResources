@@ -16,7 +16,8 @@ void sievephi(ll n)
         {
             for(j=i;j<=n; j+=i)
             {
-                prime[j+i]=1;
+                if(j+i<=n)
+                    prime[j+i]=1;
                 phi[j]=(phi[j]/i)*(i-1);
 
             }
