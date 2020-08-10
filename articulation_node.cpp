@@ -2,7 +2,7 @@
 using namespace std;
 
 
-#define MAXN 500009
+#define MAXN 50009
 vector<int> G[MAXN];
 bool vis[MAXN];
 int timer, dis[MAXN], low[MAXN];
@@ -51,6 +51,7 @@ int main() {
     for (int i=0; i<n; ++i)
         vis[i] = false;
     dfs (1);
+    cout<<arti.size()<<endl;
     for(int i=0; i<arti.size(); i++)
     {
         cout<<arti[i]<<endl;
