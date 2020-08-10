@@ -36,6 +36,8 @@ void odd_length(string const &s,int n)
         }
     }
 }
+
+
 int main()
 {
     string str;
