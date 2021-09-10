@@ -7,11 +7,11 @@ using namespace std;
 
 vector <int> adj[N], costs[N], indexx[N];
 
-int baseArray[N], ptr;
+int segArr[N], ptr;
 
-int chainNo, chainInd[N], chainHead[N], posInBase[N];
+int chainNo, chainInd[N], chainHead[N], segInd[N];
 
-int depth[N], pa[LN][N], otherEnd[N], subsize[N];
+int depth[N], pa[LN][N], edgeEnd[N], subsize[N];
 
 int st[N*6], qt[N*6];
 
@@ -20,7 +20,7 @@ void make_tree(int cur,int s,int e)
 {
 	if(s==e-1)
     {
-		st[cur] = baseArray[s];
+		st[cur] = segArr[s];
 		return;
 	}
 	int c1 = (cur<<1);
@@ -94,14 +94,14 @@ int query_up(int u, int v)
 
 			if(u==v)
                 break;
-			query_tree(1,0,ptr,posInBase[v]+1,posInBase[u]+1);
+			query_tree(1,0,ptr,segInd[v]+1,segInd[u]+1);
 
 			if(qt[1] > ans)
                 ans = qt[1];
 			break;
 		}
 
-		query_tree(1,0,ptr, posInBase[chainHead[uchain]],posInBase[u]+1);
+		query_tree(1,0,ptr, segInd[chainHead[uchain]],segInd[u]+1);
 
 		if(qt[1]>ans)
             ans = qt[1];
@@ -155,9 +155,9 @@ void query(int u, int v)
 
 void change(int i, int val)
 {
-	int u = otherEnd[i];
+	int u = edgeEnd[i];
 
-	update_tree(1,0,ptr,posInBase[u],val);
+	update_tree(1,0,ptr,segInd[u],val);
 }
 
 
@@ -170,8 +170,8 @@ void HLD(int curNode,int cost,int prev)
 	}
 
 	chainInd[curNode] = chainNo;
-	posInBase[curNode] = ptr;
-	baseArray[ptr++] = cost;
+	segInd[curNode] = ptr;
+	segArr[ptr++] = cost;
 
 	int sc = -1, ncost;
 
@@ -216,7 +216,7 @@ void dfs(int cur,int prev,int _depth=0)
     {
 		if(adj[cur][i] != prev)
         {
-			otherEnd[indexx[cur][i]] = adj[cur][i];
+			edgeEnd[indexx[cur][i]] = adj[cur][i];
 			dfs(adj[cur][i], cur, _depth+1);
 			subsize[cur] += subsize[adj[cur][i]];
 		}
@@ -278,7 +278,7 @@ int main()
 
 		while(1)
         {
-			char s[100];
+			char s[10];
 			scanf("%s", s);
 			if(s[0]=='D')
 			{

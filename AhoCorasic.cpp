@@ -129,6 +129,7 @@ int main()
     string text = "ababacbabc";
     int k =  5;
 
+
     searchWords( k, text);
 
     return 0;

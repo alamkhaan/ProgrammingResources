@@ -102,9 +102,53 @@ ll query_hash(ll l,ll r)
         return hash_val[r];
     else return ((((hash_val[r] - hash_val[l-1])+m)%m)*modIn[l])%m;
 }
+ll p_pow2[sz],modIn2[sz];
+ll hash_val2[sz];
+const ll p2 = 137;
+const ll m2 = 982563121;
+void compute_hash2(string const& s)
+{
+    hash_val2[0] = s[0] - 'a' + 1;
+    for (ll i =1;i<s.size();i++)
+    {
+        hash_val2[i] = (hash_val2[i-1] + (s[i] - 'a' + 1) * p_pow2[i]) % m2;
+
+    }
+}
+ll get_hash2(string const& s)
+{
+    ll x = s[0] - 'a' + 1;
+    for (ll i =1;i<s.size();i++)
+    {
+        x = (x + (s[i] - 'a' + 1) * p_pow2[i]) % m2;
+
+    }
+    return x;
+}
+void powCalc2(ll n)
+{
+    p_pow2[0] = 1;
+    for(ll i=1;i<=n;i++)
+    {
+        p_pow2[i] = (p2*p_pow2[i-1])%m2;
+        modIn2[i]  =  modInverse(p_pow2[i],m2);
+    }
+}
+ll query_hash2(ll l,ll r)
+{
+    if(r<l)
+        return 0;
+    if(l==0)
+        return hash_val2[r];
+    else return ((((hash_val2[r] - hash_val2[l-1])+m2)%m2)*modIn2[l])%m2;
+}
 ll mergeHash(ll l1,ll r1,ll l2,ll r2)
 {
     return (query_hash(l1,r1)   + query_hash(l2,r2)*p_pow[r1-l1+1])%m;
+}
+ll mergeHash2(ll l1,ll r1,ll l2,ll r2)
+{
+    return (query_hash2(l1,r1)   + query_hash2(l2,r2)*p_pow2[r1-l1+1])%m2;
 }
 int main()
 {

@@ -35,6 +35,18 @@ ll cross_product(Point O, Point A, Point B)
 	return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
 }
 
+ll area(vector<Point> &points)
+{
+    ll n,x =  0,y=  0,i;
+    n  =points.size();
+    for(i=0;i<n;i++)
+    {
+        x+= points[i].x * points[(i+1)%n].y;
+        y+= points[i].y * points[(i+1)%n].x;
+    }
+    return abs(x-y); //divide by 2 needed.
+    return (double)abs(x-y)/2.0;
+}
 // Returns a list of points on the convex hull
 // in counter-clockwise order
 vector<Point> convex_hull()
