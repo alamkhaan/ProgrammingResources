@@ -13,7 +13,13 @@ struct Vertex {
     }
 };
 
-vector<Vertex> trie(1);
+vector<Vertex> tri;
+
+void init()
+{
+    tri.clear();
+    tri.resize(1);
+}
 
 void add_string(string const& s)
 {
@@ -21,14 +27,15 @@ void add_string(string const& s)
     for (int i=0;i<s.size();i++)
     {
         c = s[i] - 'a';
-        if (trie[v].next[c] == -1)
+        if (tri[v].next[c] == -1)
         {
-            trie[v].next[c] = trie.size();
-            trie.emplace_back();
+            tri[v].next[c] = tri.size();
+            tri.emplace_back();
         }
-        v = trie[v].next[c];
+        v = tri[v].next[c];
+
     }
-    trie[v].leaf = true;
+    tri[v].leaf = true;
 }
 
 bool found(string const &s)
@@ -37,16 +44,17 @@ bool found(string const &s)
     for(int i=0;i<s.size();i++)
     {
         c = s[i] - 'a';
-        if(trie[v].next[c]==-1)
+        if(tri[v].next[c]==-1)
             return false;
-        v = trie[v].next[c];
+        v = tri[v].next[c];
     }
-    return trie[v].leaf; //if full string.......but if prefix then it should be return true;
+    return tri[v].leaf; //if full string.......but if prefix then it should be return true;
 }
 int main()
 {
     string str;
     int i,n,m;
+    init();
     cin>>n;
     for(i=0;i<n;i++)
     {

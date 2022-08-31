@@ -119,11 +119,15 @@ int query(int att,int L,int R,int l,int r)
 int main()
 {
     string str;
+    //freopen("input.txt","r",stdin);
+    //freopen("output.txt","w",stdout);
+
     cin>>str;
+    str.push_back('$');
     vector<int> suffix =  sort_cyclic_shifts(str);
-    lcp = lcp_construction(str,suffix);
-    for(int i=0;i<suffix.size();i++)
-        cout<<"i = "<<suffix[i]<<endl;
+    //lcp = lcp_construction(str,suffix);
+    for(int i=1;i<suffix.size();i++)
+        cout<<suffix[i]<<endl;
 
     return 0;
 }

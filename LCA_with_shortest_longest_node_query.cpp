@@ -154,7 +154,7 @@ void lca_init(ll N)
 
       return par[p];
 }
-ll value(ll p,ll q)
+ll value(ll p,ll q)// q = lca
 {
     ll tmp,j,i;
     for(i=0;;i++)

@@ -6,9 +6,9 @@ const int MAXN = 105000;
 struct node
 {
     int next[26];
-    int len; //palindromic length of that node
+    int len;
     int sufflink;
-    int num;   // number of suffix link of a node till root node
+    int num;
 
 };
 
@@ -17,16 +17,18 @@ string s;
 vector<node> tree;
 int num;            // node 1 - root with len -1, node 2 - root with len 0
 int suff;           // max suffix palindrome
-long long ans;
+int ans;
 
 bool addLetter(int pos)
 {
     int cur = suff, curlen = 0;
     int let = s[pos] - 'a';
+   // cout<<"suff " <<suff<<",num = "<<num<<endl;
 
     while (true)
     {
         curlen = tree[cur].len;
+        //cout<<"curlen "<<curlen<<" "<<",cur = "<<cur<<" "<<pos - 1 - curlen<<endl;
         if (pos - 1 - curlen >= 0 && s[pos - 1 - curlen] == s[pos])
             break;
         cur = tree[cur].sufflink;
@@ -37,6 +39,7 @@ bool addLetter(int pos)
         suff = tree[cur].next[let];
         return false;
     }
+   // cout<<"YES "<<pos<<endl;
 
     num++;
     tree.emplace_back();
@@ -67,9 +70,10 @@ bool addLetter(int pos)
     return true;
 }
 int cnt = -2;
-void dfs(int node) //distinct palindrome = num-2
+void dfs(int node) //distinct palindrome
 {
     cnt++;
+    ans = max(ans,tree[node].len);
     for(int i=0;i<26;i++)
     {
         if(tree[node].next[i]!=0)
@@ -82,7 +86,6 @@ void dfs(int node) //distinct palindrome = num-2
 
 void initTree()
 {
-    tree.clear();
     tree.emplace_back();
     tree.emplace_back();
     tree.emplace_back();
@@ -98,32 +101,20 @@ int main()
 {
     //assert(freopen("input.txt", "r", stdin));
     //assert(freopen("output.txt", "w", stdout));
-
     cin>>len;
     cin>>s;
 
     initTree();
-
+    ans = 0;
     for (int i = 0; i < len; i++)
     {
         addLetter(i);
-        ans += tree[suff].num; // all possible palindrome(duplicate)
+        //ans += tree[suff].num; // all possible palindrome(duplicate)
     }
     dfs(1);
     dfs(2);
 
-    cout << ans <<" "<<cnt<< endl;
+    cout << ans<< endl;
 
     return 0;
 }
-/*
-
-testcase::
-abbabba
-aabcaa
-abcda
-abababa
-aaaa
-aaaaa
-ababacaba
-*/

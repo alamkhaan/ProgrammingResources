@@ -44,30 +44,83 @@ typedef tree<ll,null_type,less_equal<ll>,rb_tree_tag,tree_order_statistics_node_
 #define FAST  ios_base::sync_with_stdio(false);cin.tie(NULL);
 #define fr freopen("input.txt","r",stdin)
 #define fw freopen("output.txt","w",stdout)
-double f(double x)
+vector<ll> v[100009];
+vector<ll> v2[100009];
+stack<ll> s;
+ll vis[10009];
+void dfs(ll node)
 {
-    return 0;
+    vis[node]  =1;
+    for(ll i=0;i<v[node].size();i++)
+    {
+        if(vis[v[node][i]]==0)
+        {
+            dfs(v[node][i]);
+        }
+    }
+    s.push(node);
 }
 
-double ternary_search(double l, double r) {
-    double eps = 1e-9;              //set the error limit here
-    while (r - l > eps) {           //also 100 times loop will work for(i=1;i<=100;i++)
-        double m1 = l + (r - l) / 3;
-        double m2 = r - (r - l) / 3;
-        double f1 = f(m1);      //evaluates the function at m1
-        double f2 = f(m2);      //evaluates the function at m2
-        if (f1 < f2)
-            l = m1;
-        else
-            r = m2;
-
+void dfs2(ll node)
+{
+    vis[node]  =1;
+    cout<<node<<" ";
+    for(ll i=0;i<v2[node].size();i++)
+    {
+        if(vis[v2[node][i]]==0)
+        {
+            dfs2(v2[node][i]);
+        }
     }
-    return f(l);                    //return the maximum of f(x) in [l, r]
+
 }
 int main()
 {
     ll i,n,t,k,j,x=0,y=0,m;
+    cin>>t;
+    for(j=1;j<=t;j++)
+    {
+        cin>>n>>m;
 
+        for(i=0;i<m;i++)
+        {
+            cin>>x>>y;
+            v[x].pb(y);
+            v2[y].pb(x);
+        }
+        for(i=1;i<=n;i++)
+        {
+            if(vis[i]==0)
+            {
+                dfs(i);
+            }
+        }
+        for(i=1;i<=n;i++)
+        {
+            vis[i] = 0;
+        }
+        y  =0;
+        while(!s.empty())
+        {
+            x =s.top();
+            s.pop();
+            if(vis[x]==0)
+            {
+                y++;
+                dfs2(x);
+                cout<<endl;
+            }
+        }
+        pfcs(j,y);
+        for(i=1;i<=n;i++)
+        {
+            v[i].clear();
+            v2[i].clear();
+            vis[i] = 0;
+        }
+
+
+    }
     return 0;
 }
 
